@@ -1,0 +1,81 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'Personal site.' } = Astro.props
+const year = new Date().getFullYear()
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <header>
+      <a href="/" class="mark">AD</a>
+      <nav>
+        <a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
+        <a href="/blog" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <small>&copy; {year} AD</small>
+      <small>Built with Astro</small>
+    </footer>
+
+    <style>
+      header {
+        max-width: var(--measure);
+        margin: 0 auto;
+        padding: 1.75rem var(--gutter);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .mark {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        font-size: 1.05rem;
+        border: none;
+      }
+      nav {
+        display: flex;
+        gap: 1.25rem;
+      }
+      nav a {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      nav a:hover,
+      nav a[aria-current='page'] {
+        color: var(--ink);
+      }
+      footer {
+        max-width: var(--measure);
+        margin: 0 auto;
+        padding: 3rem var(--gutter);
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5rem;
+      }
+      footer small {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.78rem;
+      }
+    </style>
+  </body>
+</html>

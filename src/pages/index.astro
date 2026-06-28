@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const socials = [
+  ['X', 'https://x.com/axrshz'],
+  ['GitHub', 'https://github.com/axrshz'],
+  ['Email', 'mailto:axrshz@gmail.com'],
+]
+---
+
+<BaseLayout title="Adarsh" description="Software engineer. Notes on building software.">
+  <section>
+    <p class="eyebrow">// about</p>
+    <h1>Adarsh</h1>
+    <p class="lede">
+      I like Inference, ML Infra, Agents &amp; Post-training.
+    </p>
+    <p class="lede">
+      I am currently working on <a href="https://github.com/axrshz/hayate" rel="noopener">Hayate</a>,
+      where I implement concepts I learn along the way. I also try to be updated
+      with latest AI progress and keep an end to end understanding from the
+      research to infrastructure to application layer.
+    </p>
+    <p class="lede">
+      Outside of ML, my interests lie in Backend Engineering and Distributed Systems.
+    </p>
+
+    <ul class="socials">
+      {socials.map(([label, href]) => (
+        <li><a href={href} rel="me noopener">{label}</a></li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding: clamp(4rem, 16vh, 9rem) 0 3rem;
+  }
+  .eyebrow {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.06em;
+  }
+  h1 {
+    font-weight: 500;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    letter-spacing: -0.04em;
+    margin: 0 0 1.75rem;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 1.3rem;
+    line-height: 1.65;
+    max-width: 62ch;
+    color: var(--ink);
+    margin: 0 0 1.1rem;
+    letter-spacing: -0.005em;
+    text-wrap: pretty;
+  }
+  .lede:last-of-type {
+    margin-bottom: 0;
+  }
+  .socials {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .socials li {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+  }
+  .socials li + li::before {
+    content: '/';
+    color: var(--hair);
+    margin: 0 1rem;
+  }
+  .socials a {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    border: none;
+  }
+  .socials a:hover {
+    color: var(--ink);
+  }
+</style>

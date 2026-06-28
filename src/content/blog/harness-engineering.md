@@ -1,0 +1,19 @@
+---
+title: "Some Notes on Harness Engineering"
+description: "What a harness is, why context is scarce, why fewer tools are better, and how subagents and evaluation make agents actually useful."
+pubDate: 2026-06-17
+---
+
+Lately, I've been looking into this emerging space of **harness engineering**. After reading this [post](https://openai.com/index/harness-engineering/) from OpenAI, I also read posts by [Viv Trivedy](https://www.langchain.com/blog/the-anatomy-of-an-agent-harness), [HumanLayer](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents), and [Addy Osmani](https://addyosmani.com/blog/agent-harness-engineering/). Here's what I've learned.
+
+First, what even is a **harness**? Viv described it simply: **agent = model + harness**. A harness is everything other than the model itself &mdash; the code, tools, skills, system prompts, sandbox, memory, subagents, and all the other scaffolding that lets a model act. Harness engineering is the discipline of developing and tuning that harness around the model according to your task, codebase, and workflow. The core idea is that the models are now capable enough. Just give them the right harness and scaffolding and they will be useful in your workflow.
+
+**Context** is the most scarce resource. Only give the agent what it needs, never more, never less. Don't give the agent an encyclopedia that will become redundant as the project evolves. A giant 1000-line `agents.md` approach will not help &mdash; it will crowd the context and overwhelm the model. When everything is "important," nothing is. In their post, OpenAI gave Codex only an **AGENTS.md** (roughly 100 lines) that serves as a map, with pointers to deeper sources of truth in a `docs/` directory. This is **progressive disclosure**: a small, stable entry point, and the agent learns where to look next on its own rather than being overwhelmed up front.
+
+**Too many tools are bad.** One example of keeping things minimal that I really liked: Vercel [removed 80% of their agent's tools](https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools) and it improved significantly. The idea is to get out of the model's way. Remember, all these tools with their descriptions are going into your model's context &mdash; you don't wanna bloat it.
+
+**Subagents** save your context window because the performance of a model degrades as context length increases. When you break tasks down and delegate work to subagents you keep your main agent's context clean. Maybe you just need a harness with better context management, not a model with a larger context window.
+
+Subagents also save you money. You can use Opus or GPT 5.5 as your main model while offloading discrete and simpler tasks to a smaller model. This is similar to the agentic coding technique where you use expensive models like Opus 4.8 or GPT 5.5 High to create a plan and use cheaper open models like Kimi K2.6 or GLM 5 to implement it to save costs.
+
+**Evaluate** your agent. Log and trace everything. Find where your agent went wrong and then tune the harness accordingly. Stop treating the agent like a slot machine by trying out different prompts to see which one gets you the best result. Treat agent mistakes as signals. Build your harness continuously by learning from failure history. This is why harness engineering is very much like a discipline. Anything new you add to the harness should trace back to a particular failure. Obviously as models become more capable you will do this less and less. Start from the behaviour you want or the problem you wanna solve, and then derive the harness piece that does it.

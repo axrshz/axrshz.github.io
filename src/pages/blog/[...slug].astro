@@ -1,0 +1,73 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: post,
+  }))
+}
+
+type Props = CollectionEntry<'blog'>
+
+const post = Astro.props
+const { Content } = await post.render()
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+---
+
+<BaseLayout title={`${post.data.title}`} description={post.data.description}>
+  <article>
+    <a href="/blog" class="back">&larr; Blog</a>
+
+    <header>
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        <time datetime={post.data.pubDate.toISOString()}>
+          {fmt(post.data.pubDate)}
+        </time>
+        {post.data.updatedDate && (
+          <span class="updated">
+            &middot; updated {fmt(post.data.updatedDate)}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  article {
+    display: block;
+    padding: clamp(2rem, 8vh, 4.5rem) 0 1rem;
+  }
+  .back {
+    display: inline-block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .back:hover {
+    color: var(--ink);
+  }
+  header {
+    margin: 2rem 0 3rem;
+  }
+  .meta {
+    margin-top: 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .updated {
+    color: var(--muted);
+  }
+  article :global(h2) {
+    margin-top: 2.75rem;
+  }
+</style>
