@@ -7,7 +7,6 @@ interface Props {
 }
 
 const { title, description = 'Personal site.' } = Astro.props
-const year = new Date().getFullYear()
 ---
 
 <!doctype html>
@@ -31,11 +30,6 @@ const year = new Date().getFullYear()
     <main>
       <slot />
     </main>
-
-    <footer>
-      <small>&copy; {year} AD</small>
-      <small>Built with Astro</small>
-    </footer>
 
     <style>
       header {
@@ -63,18 +57,6 @@ const year = new Date().getFullYear()
       nav a:hover,
       nav a[aria-current='page'] {
         color: var(--ink);
-      }
-      footer {
-        max-width: var(--measure);
-        margin: 0 auto;
-        padding: 3rem var(--gutter);
-        display: flex;
-        justify-content: space-between;
-        margin-top: 5rem;
-      }
-      footer small {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: 0.78rem;
       }
     </style>
   </body>
