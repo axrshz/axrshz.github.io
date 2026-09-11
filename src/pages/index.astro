@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import photo from '../../download.jpg'
 
 const socials = [
   ['X', 'https://x.com/axrshz'],
@@ -10,7 +11,7 @@ const socials = [
 
 <BaseLayout title="Adarsh" description="">
   <section>
-    <p class="eyebrow">// about</p>
+    <img class="hero-image" src={photo.src} alt="" />
 
     <p class="lede">
       i'm interested in high-performance computing and distributed systems. lately, i have been diving deep into how models are trained and served at scale and learning about inference optimization, agents, post-training and evals.
@@ -29,7 +30,13 @@ const socials = [
 
 <style>
   section {
-    padding: clamp(4rem, 16vh, 9rem) 0 3rem;
+    padding: 2rem 0 3rem;
+  }
+  .hero-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
   }
   .eyebrow {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -48,7 +55,7 @@ const socials = [
   .lede {
     font-size: 1.3rem;
     line-height: 1.65;
-    max-width: 62ch;
+    max-width: none;
     color: var(--ink);
     margin: 0 0 1.1rem;
     letter-spacing: -0.005em;
@@ -66,9 +73,10 @@ const socials = [
   }
   .socials {
     list-style: none;
-    margin: 3rem 0 0;
+    margin: 2rem 0 0;
     padding: 0;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
   }
   .socials li {
