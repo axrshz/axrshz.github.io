@@ -17,6 +17,7 @@ const { title, description = 'Personal site.' } = Astro.props
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
   </head>
   <body>
     <header>

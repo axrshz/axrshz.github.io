@@ -1,17 +1,45 @@
 ---
+import { Picture, getImage } from 'astro:assets'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import photo from '../../download.jpg'
+import hero from '../assets/hero.jpg'
 
 const socials = [
   ['X', 'https://x.com/axrshz'],
   ['GitHub', 'https://github.com/axrshz'],
   ['Email', 'mailto:axrshz@gmail.com'],
 ]
+
+const widths = [480, 736]
+const sizes = '(max-width: 640px) 100vw, 736px'
+const quality = 80
+
+// Preload the exact optimized files the <Picture> below renders,
+// so the browser starts fetching the hero image with the HTML
+// instead of waiting to discover the <img> in the body.
+const preloadAvif = await getImage({ src: hero, widths, width: 736, height: 414, format: 'avif', quality })
+const preloadWebp = await getImage({ src: hero, widths, width: 736, height: 414, format: 'webp', quality })
 ---
 
 <BaseLayout title="Adarsh" description="">
+  <Fragment slot="head">
+    <link rel="preload" as="image" type="image/avif" imagesrcset={preloadAvif.srcSet.attribute} imagesizes={sizes} fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" imagesrcset={preloadWebp.srcSet.attribute} imagesizes={sizes} fetchpriority="high" />
+  </Fragment>
   <section>
-    <img class="hero-image" src={photo.src} alt="" />
+    <Picture
+      class="hero-image"
+      src={hero}
+      formats={['avif', 'webp']}
+      widths={widths}
+      sizes={sizes}
+      width={736}
+      height={414}
+      quality={quality}
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
 
     <p class="lede">
       i'm interested in high-performance computing and distributed systems. lately, i have been diving deep into how models are trained and served at scale and learning about inference optimization, agents, post-training and evals.
@@ -36,6 +64,8 @@ const socials = [
     display: block;
     width: 100%;
     height: auto;
+    aspect-ratio: 736 / 414;
+    background: var(--code-bg);
     margin-bottom: 1rem;
   }
   .eyebrow {
