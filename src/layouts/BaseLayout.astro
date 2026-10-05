@@ -24,7 +24,7 @@ const { title, description = 'Personal site.' } = Astro.props
       <a href="/" class="mark">adarsh.</a>
       <nav>
         <a href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>Home</a>
-        <a href="/blog" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
+        <a href="/writings" aria-current={Astro.url.pathname.startsWith('/writings') ? 'page' : undefined}>Writings</a>
       </nav>
     </header>
 

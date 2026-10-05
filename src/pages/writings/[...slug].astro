@@ -3,14 +3,14 @@ import { getCollection, render, type CollectionEntry } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog')
+  const posts = await getCollection('writings')
   return posts.map((post) => ({
     params: { slug: post.id },
     props: post,
   }))
 }
 
-type Props = CollectionEntry<'blog'>
+type Props = CollectionEntry<'writings'>
 
 const post = Astro.props
 const { Content } = await render(post)
@@ -21,7 +21,7 @@ const fmt = (d: Date) =>
 
 <BaseLayout title={`${post.data.title}`} description={post.data.description}>
   <article>
-    <a href="/blog" class="back">&larr; Blog</a>
+    <a href="/writings" class="back">&larr; Writings</a>
 
     <header>
       <h1>{post.data.title}</h1>
